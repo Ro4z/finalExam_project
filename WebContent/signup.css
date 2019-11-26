@@ -1,9 +1,8 @@
-@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 body{
-  margin: 0;
-  padding: 0;
-  background: url(signup_bg.jpg);
+  min-height: 100vh;
+  background-image: linear-gradient(120deg,#3498db,#8e44ad);
 }
+
 .signup-form{
   width: 300px;
   padding: 20px;

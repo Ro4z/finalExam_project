@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -77,7 +78,7 @@
 			<input type="email" placeholder="Email" id="email" class="txtb">
 			<input type="text" placeholder="NickName" id="name" class="txtb">
 			<input type="button" onclick="sign_up()" value="계정 만들기" class="signup-btn">
-			<a href="#">Already Have one ?</a>
+			<a href="javascript:history.back()">로그인 화면으로 이동하기</a>
 		</form>
 	</div>
 </body>
