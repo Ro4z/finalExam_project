@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-<link rel="stylesheet" href="main.css">
+<link rel="stylesheet" href="login.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
@@ -33,12 +33,12 @@
 		<h1>환영합니다!</h1>
 
 		<div class="txtb">
-			<input type="text" id="id">
+			<input type="text" id="id" name = "id">
 			<span data-placeholder="ID"></span>
 		</div>
 
 		<div class="txtb">
-			<input type="password" id="pwd">
+			<input type="password" id="pwd" name = "pwd">
 			<span data-placeholder="Password"></span>
 		</div>
 
@@ -62,27 +62,28 @@
 
 		function myjsplogin() {
 			var successLogin = false;
-			alert("jsp login");
 			var id = document.getElementById("id").value;
 			var pw = document.getElementById("pwd").value;
-			console.log(id + "#" + pw);
+			/* console.log(id + "#" + pw); */
 			var user_data = firebase.database().ref('user_data');
 			user_data.once('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
-					console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw);
+					/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
 					var tmp = childSnapshot.val();
 					if (tmp.user_id == id) {
 						if (tmp.user_pw == pw) {
 							console.log("hello");
 							successLogin = true;
 						}
-		}
+					}
 				});
 				if (successLogin == true) {
 					swal("로그인 성공", "", "success");
-					var form = document.getElementById("loginForm");
-					form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
-					form.submit();
+					setTimeout(function() {
+						var form = document.getElementById("loginForm");
+						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
+						form.submit();
+					}, 1300)
 				} else {
 					swal("사용자 정보와 일치하지 않습니다.", "", "error");
 				}
