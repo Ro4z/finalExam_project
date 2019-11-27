@@ -28,17 +28,13 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Login servlet");
 		HttpSession session = request.getSession();
 		String id = request.getParameter("id");
-		System.out.println("id:"+id);
 		String pwd = request.getParameter("pwd");
-		System.out.println("pwd:"+pwd);
-		
 		session.setAttribute("id", id);
 		session.setAttribute("pwd", pwd);
 		
-		String login_suc = "LoginPage.jsp";
+		String login_suc = "MainPage.jsp";
 		response.sendRedirect(login_suc);
 	}
 
