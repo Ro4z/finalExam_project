@@ -13,6 +13,9 @@
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+<!-- google recaptcha -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 	// Your web app's Firebase configuration
 	var firebaseConfig = {
@@ -80,9 +83,12 @@
 			<input type="password" placeholder="Password" id="pw" class="txtb">
 			<input type="email" placeholder="Email" id="email" class="txtb">
 			<input type="text" placeholder="NickName" id="name" class="txtb">
+			<br>
+			<div class="g-recaptcha" data-sitekey="6Lee0MQUAAAAACXcFJ63NV1v4rArxojzdnFkInR7"></div>
 			<input type="button" onclick="sign_up()" value="계정 만들기" class="signup-btn">
 			<a href="javascript:history.back()">로그인 화면으로 이동하기</a>
 		</form>
+
 	</div>
 </body>
 </html>
