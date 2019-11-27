@@ -67,6 +67,9 @@
 		        });
 			if(canSignUp){
 				swal("가입 완료!","정상적으로 회원가입 되었습니다!","success");
+				setTimeout(function() {
+					javascript:history.back();
+				}, 1300)
 			}
 		}
 	</script>
