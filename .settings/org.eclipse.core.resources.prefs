@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
-encoding//WebContent/LoginPage.html=UTF-8
+encoding//WebContent/LoginPage.jsp=UTF-8
 encoding//WebContent/SignUpPage.jsp=UTF-8
+encoding//WebContent/findPassword.jsp=UTF-8

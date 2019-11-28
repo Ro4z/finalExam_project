@@ -1,9 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <title></title>
-<link rel="stylesheet" href="login.css">
+<link rel="stylesheet" href="find_password.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
@@ -30,24 +32,28 @@
 <body>
 
 	<form action="index.html" class="login-form" id="loginForm">
-		<h1>환영합니다!</h1>
-
+		<h1>비밀번호 찾기</h1>
 		<div class="txtb">
-			<input type="text" id="id" name = "id">
+			<input type="text" id="id" name="id">
 			<span data-placeholder="ID"></span>
 		</div>
+		<div class="txtb">
+			<input type="text" id="name" name="name">
+			<span data-placeholder="NickName"></span>
+		</div>
 
 		<div class="txtb">
-			<input type="password" id="pwd" name = "pwd">
-			<span data-placeholder="Password"></span>
+			<input type="email" id="email" name="eamil">
+			<span data-placeholder="Email"></span>
 		</div>
+		<input type="button" class="logbtn" onclick="find_password()" value="Find Password">
 
-		<input type="button" class="logbtn" onclick="myjsplogin()" value="Login">
-
-		<div class="bottom-text">
+		<div class="bottom-text" style="margin-bottom: 10px!important">
 			계정이 없으신가요 ? <a href="SignUpPage.jsp">회원가입</a>
 		</div>
-
+		<a href="javascript:history.back()" class = "back"
+			style = "color: #000!important; transition: 0.8s!important; display: block!important;"
+		>로그인 화면으로 이동하기</a>
 	</form>
 
 	<script type="text/javascript">
@@ -60,35 +66,44 @@
 				$(this).removeClass("focus");
 		});
 
-		function myjsplogin() {
-			var successLogin = false;
+		function find_password() {
+			var userName ="";
+			var successFind = false;
 			var id = document.getElementById("id").value;
-			var pw = document.getElementById("pwd").value;
-			/* console.log(id + "#" + pw); */
-			var user_data = firebase.database().ref('user_data');
+			var name = document.getElementById("name").value;
+			var email = document.getElementById("email").value;
+			console.log(id + "#" + name + "#" + email);
+			var user_data = firebase.database().ref('user_profile');
 			user_data.once('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
-					/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
 					var tmp = childSnapshot.val();
-					if (tmp.user_id == id) {
-						if (tmp.user_pw == pw) {
+					console.log(tmp.user_email + "@" + tmp.user_name);
+					if (tmp.user_email == email) {
+						if (tmp.user_name == name) {
 							console.log("hello");
-							successLogin = true;
+							userName = tmp.user_name;
+							successFind = true;
 						}
 					}
 				});
-				if (successLogin == true) {
-					swal("로그인 성공", "", "success");
-					setTimeout(function() {
-						var form = document.getElementById("loginForm");
-						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
-						form.submit();
-					}, 1300)
-				} else {
-					swal("사용자 정보와 일치하지 않습니다.", "", "error");
-				}
-			});
 
+				if (successFind == true) {
+					user_data = firebase.database().ref('user_data');
+					user_data.once('value', function(snapshot) {
+						snapshot.forEach(function(childSnapshot) {
+							/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
+							var tmp = childSnapshot.val();
+							if (tmp.user_id == id) {
+								swal(userName + " 님의 비밀 번호는,", tmp.user_pw + " 입니다.", "info");
+								return;
+							}
+						});
+					});
+				} else {
+					swal("일치하는 정보를 찾을 수 없습니다.", "", "error");
+				}
+
+			});
 		}
 	</script>
 
