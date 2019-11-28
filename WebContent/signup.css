@@ -1,63 +1,71 @@
-body{
-  min-height: 100vh;
-  background-image: linear-gradient(120deg,#3498db,#8e44ad);
+body {
+	min-height: 100vh;
+	background-image: linear-gradient(120deg, #3498db, #8e44ad);
 }
 
-.signup-form{
-  width: 300px;
-  padding: 20px;
-  text-align: center;
-  background: #487eb0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  overflow: hidden;
-  
+.signup-form {
+	width: 300px;
+	padding: 20px;
+	text-align: center;
+	background: #fff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+	border-radius: 10px;
 }
-.signup-form h1{
-  margin-top: 100px;
-  color: #fff;
-  font-size: 40px;
+
+.signup-form h1 {
+	margin-top: 50px;
+	color: #000;
 }
-.signup-form input{
-  display: block;
-  width: 100%;
-  padding: 0 16px;
-  height: 44px;
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  border: none;
-  font-family: "montserrat",sans-serif;
+
+.signup-form input {
+	display: block;
+	width: 100%;
+	padding: 0 16px;
+	height: 44px;
+	text-align: center;
+	box-sizing: border-box;
+	outline: none;
+	border: none;
+	background: #3498db;
+	font-family: "montserrat", sans-serif;
 }
-.txtb{
-  margin: 20px 0;
-  background: rgba(255,255,255,.5);
-  border-radius: 6px;
+
+.txtb {
+	margin: 20px 0;
+	background: rgba(255, 255, 255, .5);
+	border-radius: 6px;
 }
-.signup-btn{
-  margin-top: 60px;
-  margin-bottom: 20px;
-  background: #00FFFF;
-  color: #000;
-  font-family: 'Noto Sans KR';
-  border-radius: 44px;
-  cursor: pointer;
-  transition: 0.8s;
+
+.signup-btn {
+	margin-top: 60px;
+	margin-bottom: 20px;
+	background: linear-gradient(120deg, #3498db, #8e44ad, #3498db) !important; 
+	background-size : 200% !important; 
+	color: #FFF !important;
+	font-family: 'Noto Sans KR';
+	cursor: pointer;
+	transition: 0.8s;
+	background-size: 200%;
 }
-.signup-btn:hover{
-  transform: scale(0.96);
+
+.signup-btn:hover {
+	transform: scale(0.96);
 }
-.signup-form a{
-  text-decoration: none;
-  color: #fff;
-  font-family: "montserrat",sans-serif;
-  font-size: 14px;
-  padding: 10px;
-  transition: 0.8s;
-  display: block;
+
+.signup-form a {
+	text-decoration: none;
+	color: #000;
+	font-family: "montserrat", sans-serif;
+	font-size: 14px;
+	padding: 10px;
+	transition: 0.8s;
+	display: block;
 }
-.signup-form a:hover{
-  background: rgba(0,0,0,.3);
+
+.signup-form a:hover {
+	background: rgba(0, 0, 0, .3);
 }
