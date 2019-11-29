@@ -57,7 +57,7 @@
 		$(document).ready(function() {
 			$(".login-form").keypress(function(e) {
 				if (e.which == 13) {
-						login(); // 실행할 이벤트
+					login(); // 실행할 이벤트
 				}
 			});
 		});
@@ -79,7 +79,7 @@
 			var user_data = firebase.database().ref('user_data');
 			user_data.once('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
-					var key = Object.keys(snapshot.val())[0];
+					var key = Object.keys(childSnapshot.val())[0];
 					console.log(key + "@@");
 					/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
 					var tmp = childSnapshot.val();
@@ -98,9 +98,14 @@
 						timer : 1300,
 						button : false
 					})
+					var user_name;
+					var user_data = firebase.database().ref('user_profile/' + id);
+					user_data.once('value').then(function(snapshot) {
+						user_name = (snapshot.val() && snapshot.val().user_name) || 'Anonymous';
+					});
 					setTimeout(function() {
 						var form = document.getElementById("loginForm");
-						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
+						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "&&name=" + name + "");
 						form.submit();
 					}, 1300)
 				} else {
