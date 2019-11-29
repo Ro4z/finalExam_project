@@ -28,25 +28,25 @@
 	firebase.initializeApp(firebaseConfig);
 </script>
 </head>
-<body>
+<body onkeydown="javascript:login()">
 
-	<form action="index.html" class="login-form" id="loginForm">
+	<form class="login-form" id="loginForm">
 		<h1>환영합니다!</h1>
 
 		<div class="txtb">
-			<input type="text" id="id" name = "id">
+			<input type="text" id="id" name="id">
 			<span data-placeholder="ID"></span>
 		</div>
 
 		<div class="txtb">
-			<input type="password" id="pwd" name = "pwd">
+			<input type="password" id="pwd" name="pwd">
 			<span data-placeholder="Password"></span>
 		</div>
 
 		<div class="bottom-text" style="margin-top: 0px !important">
 			<a href="findPassword.jsp">비밀번호를 잊으셨나요?</a>
 		</div>
-		<input type="button" class="logbtn" onclick="myjsplogin()" value="Login">
+		<input type="button" class="logbtn" onclick="login()" value="Login">
 
 		<div class="bottom-text">
 			계정이 없으신가요 ? <a href="SignUpPage.jsp">회원가입</a>
@@ -63,7 +63,10 @@
 				$(this).removeClass("focus");
 		});
 
-		function myjsplogin() {
+		function login() {
+			var keyCode = window.event.keyCode;
+			if (keyCode != 13)
+				return;
 			var successLogin = false;
 			var id = document.getElementById("id").value;
 			var pw = document.getElementById("pwd").value;
@@ -81,14 +84,26 @@
 					}
 				});
 				if (successLogin == true) {
-					swal("로그인 성공", "", "success");
+					swal({
+						title : "로그인 성공\n",
+						text : "\n",
+						icon : "success",
+						timer : 1300,
+						button : false
+					})
 					setTimeout(function() {
 						var form = document.getElementById("loginForm");
 						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
 						form.submit();
 					}, 1300)
 				} else {
-					swal("사용자 정보와 일치하지 않습니다.", "", "error");
+					swal({
+						title : "사용자 정보와 일치하지 않습니다\n",
+						text : "\n",
+						icon : "error",
+						timer : 1300,
+						button : false
+					})
 				}
 			});
 
