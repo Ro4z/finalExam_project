@@ -7,11 +7,11 @@
 <link rel="stylesheet" href="./css/login.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
 <!-- sweetalert -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 <script>
 	// Your web app's Firebase configuration
@@ -28,7 +28,7 @@
 	firebase.initializeApp(firebaseConfig);
 </script>
 </head>
-<body onkeydown="javascript:login()">
+<body>
 
 	<form class="login-form" id="loginForm">
 		<h1>환영합니다!</h1>
@@ -54,6 +54,13 @@
 	</form>
 
 	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".login-form").keypress(function(e) {
+				if (e.which == 13) {
+						login(); // 실행할 이벤트
+				}
+			});
+		});
 		$(".txtb input").on("focus", function() {
 			$(this).addClass("focus");
 		});
@@ -65,8 +72,6 @@
 
 		function login() {
 			var keyCode = window.event.keyCode;
-			if (keyCode != 13)
-				return;
 			var successLogin = false;
 			var id = document.getElementById("id").value;
 			var pw = document.getElementById("pwd").value;
@@ -74,6 +79,8 @@
 			var user_data = firebase.database().ref('user_data');
 			user_data.once('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
+					var key = Object.keys(snapshot.val())[0];
+					console.log(key + "@@");
 					/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
 					var tmp = childSnapshot.val();
 					if (tmp.user_id == id) {
@@ -108,6 +115,12 @@
 			});
 
 		}
+
+		$("#login").keypress(function(e) {
+			if (e.which == 13) {
+				login();
+			}
+		});
 	</script>
 
 

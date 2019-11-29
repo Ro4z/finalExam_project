@@ -3,6 +3,7 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	String id = (String) session.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>One Page Wonder - Start Bootstrap Template</title>
+<title>Main Page</title>
 
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,22 +26,57 @@
 
 <!-- Custom styles for this template -->
 <link href="css/one-page-wonder.min.css" rel="stylesheet">
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+<script>
+	// Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey : "AIzaSyDJPT1iTv_Bo0dXo78co_7hriUbhC0NQEQ",
+		authDomain : "ip001-final-project.firebaseapp.com",
+		databaseURL : "https://ip001-final-project.firebaseio.com",
+		projectId : "ip001-final-project",
+		storageBucket : "ip001-final-project.appspot.com",
+		messagingSenderId : "1083544792257",
+		appId : "1:1083544792257:web:315868cfabab79d41bb840"
+	};
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
 
+	function init() {
+		var user_id = "<%= id%>";
+		var user_data = firebase.database().ref('user_profile');
+		user_data.once('value', function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				var tmp = childSnapshot.val();
+				console.log(tmp.user_email + "@" + tmp.user_name);
+				if (tmp.user_email == email) {
+					if (tmp.user_name == name) {
+						console.log("hello");
+						userName = tmp.user_name;
+						successFind = true;
+					}
+				}
+			});
+		});
+	}
+</script>
 </head>
 
-<body>
+<body onload="init()">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">Start Bootstrap</a>
+			<a class="navbar-brand" href="#">HomePage</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="#">Sign Up</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Log In</a></li>
+					<li class="nav-item"><a class="nav-link" href="./SignUpPage.jsp">Sign Up</a></li>
+					<li class="nav-item"><a class="nav-link" href="./LoginPage.jsp">Log In</a></li>
 				</ul>
 			</div>
 		</div>
@@ -49,9 +85,9 @@
 	<header class="masthead text-center text-white">
 		<div class="masthead-content">
 			<div class="container">
-				<h1 class="masthead-heading mb-0">One Page Wonder</h1>
-				<h2 class="masthead-subheading mb-0">Will Rock Your Socks Off</h2>
-				<a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Learn More</a>
+				<h1 class="masthead-heading mb-0">안녕하세요!</h1>
+				<h2 class="masthead-subheading mb-0">환영합니다.</h2>
+				<a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">SUBMIT</a>
 			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>

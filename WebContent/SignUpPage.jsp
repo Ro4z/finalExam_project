@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-<link rel="stylesheet" href="signup.css">
+<link rel="stylesheet" href="./css/signup.css">
 <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
