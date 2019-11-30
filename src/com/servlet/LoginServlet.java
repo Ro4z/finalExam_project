@@ -31,8 +31,10 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
+		
 		session.setAttribute("id", id);
 		session.setAttribute("pwd", pwd);
+		
 		
 		String login_suc = "MainPage.jsp";
 		response.sendRedirect(login_suc);

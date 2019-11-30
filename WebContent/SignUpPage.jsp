@@ -53,27 +53,53 @@
 		            snapshot.forEach((node) => {
 		                console.log(node.val().user_id);
 		                if(node.val().user_id === id) {
-		                	swal("","이미 존재하는 ID 입니다.","warning");
+		                	swal({
+								title : "이미 존재하는 ID 입니다.\n",
+								text : "\n",
+								icon : "error",
+								timer : 1300,
+								button : false
+							});
 		                    canSignUp = false;
 		                }
 		            });
+		            var response = grecaptcha.getResponse();
 		            if(canSignUp) {
-		                firebase.database().ref('/user_data/' + id).set({
-		                    user_id: id,
-		                    user_pw: pw,
-		                });
-		                firebase.database().ref('/user_profile/' + id).set({
-		                    user_name: name,
-		                    user_email: email,
-		                });
+		            	if(response.length ==0){
+		    			    //reCaptcha not verified
+		    			   	swal({
+		    					title : "reCAPTCHA 인증이 되지 않았습니다.\n",
+		    					text : "\n",
+		    					icon : "error",
+		    					timer : 1300,
+		    					button : false
+		    				})
+		            	}
+		            	else{
+			                firebase.database().ref('/user_data/' + id).set({
+			                    user_id: id,
+			                    user_pw: pw,
+			                });
+			                firebase.database().ref('/user_profile/' + id).set({
+			                	user_id: id,
+			                    user_name: name,
+			                    user_email: email,
+			                });
+			            	swal({
+								title : "가입 완료!",
+								text : "정상적으로 회원가입 되었습니다!",
+								icon : "success",
+								timer : 2000,
+								button : false
+							})
+							setTimeout(function() {
+								window.location.href = "./LoginPage.jsp";
+							}, 1300)
+		            	}
+		            	
+
 		            }
 		        });
-			if(canSignUp){
-				swal("가입 완료!","정상적으로 회원가입 되었습니다!","success");
-				setTimeout(function() {
-					javascript:history.back();
-				}, 1300)
-			}
 		}
 	</script>
 	<div class="signup-form">

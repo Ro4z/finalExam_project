@@ -91,6 +91,12 @@
 					}
 				});
 				if (successLogin == true) {
+					var name;
+					var user_data = firebase.database().ref('user_profile/' + id);
+					console.log(user_data);
+					user_data.once('value').then(function(snapshot) {
+						name = (snapshot.val() && snapshot.val().user_name) || 'Anonymous';
+					});
 					swal({
 						title : "로그인 성공\n",
 						text : "\n",
@@ -98,14 +104,10 @@
 						timer : 1300,
 						button : false
 					})
-					var user_name;
-					var user_data = firebase.database().ref('user_profile/' + id);
-					user_data.once('value').then(function(snapshot) {
-						user_name = (snapshot.val() && snapshot.val().user_name) || 'Anonymous';
-					});
+
 					setTimeout(function() {
 						var form = document.getElementById("loginForm");
-						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "&&name=" + name + "");
+						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
 						form.submit();
 					}, 1300)
 				} else {

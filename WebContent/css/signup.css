@@ -69,3 +69,7 @@ body {
 .signup-form a:hover {
 	background: rgba(0, 0, 0, .3);
 }
+
+.swal-title {
+ 
+  font-size: 25px;

@@ -45,21 +45,8 @@
 	firebase.initializeApp(firebaseConfig);
 
 	function init() {
-		var user_id = "<%= id%>";
-		var user_data = firebase.database().ref('user_profile');
-		user_data.once('value', function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				var tmp = childSnapshot.val();
-				console.log(tmp.user_email + "@" + tmp.user_name);
-				if (tmp.user_email == email) {
-					if (tmp.user_name == name) {
-						console.log("hello");
-						userName = tmp.user_name;
-						successFind = true;
-					}
-				}
-			});
-		});
+		var subhead = document.getElementById("welcome");
+		
 	}
 </script>
 </head>
@@ -85,8 +72,8 @@
 	<header class="masthead text-center text-white">
 		<div class="masthead-content">
 			<div class="container">
-				<h1 class="masthead-heading mb-0">안녕하세요!</h1>
-				<h2 class="masthead-subheading mb-0">환영합니다.</h2>
+				<h1 class="masthead-heading mb-0">환영합니다!</h1>
+				<h2 class="masthead-subheading mb-0" id = "welcome"><%=id %>님 안녕하세요!</h2>
 				<a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">SUBMIT</a>
 			</div>
 		</div>
