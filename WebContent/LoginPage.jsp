@@ -75,6 +75,30 @@
 			var successLogin = false;
 			var id = document.getElementById("id").value;
 			var pw = document.getElementById("pwd").value;
+
+			if (id == "admin") {
+				if (pw == "passwd") {
+					swal({
+						title : "관리자 페이지에 접속합니다.\n",
+						text : "\n",
+						icon : "success",
+						timer : 1300,
+						button : false
+					})
+					setTimeout(function() {
+						window.location.href = "./AdminPage.jsp";
+					}, 1300)
+				} else {
+					swal({
+						title : "사용자 정보와 일치하지 않습니다\n",
+						text : "\n",
+						icon : "error",
+						timer : 1300,
+						button : false
+					})
+				}
+				return;
+			}
 			/* console.log(id + "#" + pw); */
 			var user_data = firebase.database().ref('user_data');
 			user_data.once('value', function(snapshot) {

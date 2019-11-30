@@ -41,7 +41,16 @@
 			var pw = document.getElementById("pw").value;
 			var name = document.getElementById('name').value;
 			var email = document.getElementById('email').value;
-			
+			if(id=="admin"){
+			   	swal({
+					title : "관리자 아이디는 사용하실 수 없습니다.\n",
+					text : "\n",
+					icon : "warning",
+					timer : 1200,
+					button : false
+				})
+				return;
+			}
 			if(id==""||pw ==""||name==""||email==""){
 				swal("","모든 정보를 입력해주세요.","warning");
 				return;
