@@ -43,19 +43,81 @@
 	};
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
+</script>
+<script>
+	var canvas;
+	var context;
+	var dx = 5;
+	var dy = 5;
+	var WIDTH = 800;
+	var HEIGHT = 500;
+	var theta = 0.1;
+	var radius = 80;
+	var x = 400 + radius * Math.cos(theta);
+	var y = 250 + radius * Math.sin(theta);
+	function circle(x, y, r) {
+		context.beginPath();
+		context.arc(x, y, r, 0, Math.PI * 2, true);
+		context.fill();
+	}
 
-	function init() {
-		var subhead = document.getElementById("welcome");
+	function rect(x, y, w, h) {
+		context.beginPath();
+		context.rect(x, y, w, h);
+		context.closePath();
+		context.fill();
+		context.stroke();
+	}
+
+	function clear() {
+		context.clearRect(0, 0, WIDTH, HEIGHT);
+	}
+
+	function doKeyDown(evt) {
+
+		switch (evt.keyCode) {
+
+			case 37: /* Left arrow was pressed */
+				theta -= 0.3;
+				x = 400 + radius * Math.cos(theta);
+				y = 250 + radius * Math.sin(theta);
+
+				evt.preventDefault();
+				break;
+			case 39: /* Right arrow was pressed */
+
+				theta += 0.3;
+				x = 400 + radius * Math.cos(theta);
+				y = 250 + radius * Math.sin(theta);
+
+				evt.preventDefault();
+				break;
+		}
 
 	}
 
+	function draw() {
+		clear();
+		context.fillStyle = "white";
+		context.strokeStyle = "black";
+		rect(0, 0, WIDTH, HEIGHT);
+		context.fillStyle = "purple";
+		circle(x, y, 10);
+	}
+
+	var context;
+	var canvas;
 	function startGame() {
 		document.getElementById("drawCanvas").innerHTML = '<canvas width="800" height="500" id="MyCanvas"></canvas>';
+		canvas = document.getElementById("MyCanvas");
+		context = canvas.getContext("2d");
+		return setInterval(draw, 1000 / 60);
 	}
+	window.addEventListener('keydown', doKeyDown, true);
 </script>
 </head>
 
-<body onload="init()">
+<body>
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
