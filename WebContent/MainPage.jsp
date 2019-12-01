@@ -46,7 +46,11 @@
 
 	function init() {
 		var subhead = document.getElementById("welcome");
-		
+
+	}
+
+	function startGame() {
+		document.getElementById("drawCanvas").innerHTML = '<canvas width="800" height="500" id="MyCanvas"></canvas>';
 	}
 </script>
 </head>
@@ -70,11 +74,12 @@
 	</nav>
 
 	<header class="masthead text-center text-white">
-		<div class="masthead-content">
+		<div class="masthead-content" id="drawCanvas">
 			<div class="container">
 				<h1 class="masthead-heading mb-0">»Øøµ«’¥œ¥Ÿ!</h1>
-				<h2 class="masthead-subheading mb-0" id = "welcome"><%=id %>¥‘ æ»≥Á«œººø‰!</h2>
-				<a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">SUBMIT</a>
+				<h2 class="masthead-subheading mb-0" id="welcome"><%=id%>¥‘ æ»≥Á«œººø‰!
+				</h2>
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="START">
 			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
