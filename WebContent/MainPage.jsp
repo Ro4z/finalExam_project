@@ -61,6 +61,13 @@
 		context.fill();
 	}
 
+	function mainCircle() {
+		context.beginPath();
+		context.arc(400, 250, 70, 0, Math.PI * 2, true);
+		context.fill();
+
+	}
+
 	function rect(x, y, w, h) {
 		context.beginPath();
 		context.rect(x, y, w, h);
@@ -78,7 +85,7 @@
 		switch (evt.keyCode) {
 
 			case 37: /* Left arrow was pressed */
-				theta -= 0.3;
+				theta -= 0.1;
 				x = 400 + radius * Math.cos(theta);
 				y = 250 + radius * Math.sin(theta);
 
@@ -86,7 +93,7 @@
 				break;
 			case 39: /* Right arrow was pressed */
 
-				theta += 0.3;
+				theta += 0.1;
 				x = 400 + radius * Math.cos(theta);
 				y = 250 + radius * Math.sin(theta);
 
@@ -101,8 +108,10 @@
 		context.fillStyle = "white";
 		context.strokeStyle = "black";
 		rect(0, 0, WIDTH, HEIGHT);
-		context.fillStyle = "purple";
+		context.fillStyle = "#8e44ad";
 		circle(x, y, 10);
+		context.fillStyle = "#3498db";
+		mainCircle();
 	}
 
 	var context;
@@ -111,7 +120,7 @@
 		document.getElementById("drawCanvas").innerHTML = '<canvas width="800" height="500" id="MyCanvas"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
-		return setInterval(draw, 1000 / 60);
+		return setInterval(draw, 10 / 60);
 	}
 	window.addEventListener('keydown', doKeyDown, true);
 </script>
@@ -128,8 +137,10 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="./SignUpPage.jsp">Sign Up</a></li>
-					<li class="nav-item"><a class="nav-link" href="./LoginPage.jsp">Log In</a></li>
+					<li class="nav-item"><a class="nav-link" href="./Board.jsp">게시판</a></li>
+					<li class="nav-item"><a class="nav-link" href="./SignUpPage.jsp">회원가입</a></li>
+					<li class="nav-item"><a class="nav-link" href="./LoginPage.jsp">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="withdrawal()">회원탈퇴</a></li>
 				</ul>
 			</div>
 		</div>
@@ -141,7 +152,7 @@
 				<h1 class="masthead-heading mb-0">환영합니다!</h1>
 				<h2 class="masthead-subheading mb-0" id="welcome"><%=id%>님 안녕하세요!
 				</h2>
-				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="START">
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작">
 			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
@@ -215,7 +226,11 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+	<script>
+		function withdrawal() {
+			alert(1);
+		}
+	</script>
 </body>
 
 </html>
