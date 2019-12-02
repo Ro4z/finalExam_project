@@ -28,10 +28,13 @@
 <link href="css/one-page-wonder.min.css" rel="stylesheet">
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
+<!-- sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 <script>
 	// Your web app's Firebase configuration
+	var db;
 	var firebaseConfig = {
 		apiKey : "AIzaSyDJPT1iTv_Bo0dXo78co_7hriUbhC0NQEQ",
 		authDomain : "ip001-final-project.firebaseapp.com",
@@ -42,7 +45,66 @@
 		appId : "1:1083544792257:web:315868cfabab79d41bb840"
 	};
 	// Initialize Firebase
-	firebase.initializeApp(firebaseConfig);
+	var app = firebase.initializeApp(firebaseConfig);
+	db = firebase.firestore(app);
+	const firestore = firebase.firestore();
+	const settings = {
+		timestampsInSnapshots : true
+	};
+	firestore.settings(settings);
+	function withdrawal() {
+		swal({
+			  title: "정말 탈퇴 하시겠습니까?",
+			  text: "모든 정보가 삭제되며, 복구할 수 없습니다.",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+					var user_id = "<%=id%>";
+					var user_data = firebase.database().ref('user_data');
+					user_data.once('value', function(snapshot) {
+						snapshot.forEach(function(childSnapshot) {
+							console.log(childSnapshot.key);
+							if(childSnapshot.key == user_id){
+								user_data.child(childSnapshot.key).remove();
+							}
+							
+						});
+					});
+					
+					setTimeout(function(){
+						var user_data = firebase.database().ref('user_profile');
+						user_data.once('value', function(snapshot) {
+							snapshot.forEach(function(childSnapshot) {
+								console.log(childSnapshot.key);
+								if(childSnapshot.key == user_id){
+									user_data.child(childSnapshot.key).remove();
+								}
+								
+							});
+
+						    swal("탈퇴 완료", {
+						        icon: "info",
+						        button : false
+						      });
+						    setTimeout(function() {
+								window.location.href = "./LoginPage.jsp";
+							}, 1300)
+						});
+					},1000);
+
+			  } else {
+			    
+			  }
+			});
+		
+		
+	
+
+
+	}
 </script>
 <script>
 	var canvas;
@@ -131,7 +193,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="#">HomePage</a>
+			<a class="navbar-brand" href="./MainPage.jsp">HomePage</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -161,64 +223,11 @@
 		<div class="bg-circle-4 bg-circle"></div>
 	</header>
 
-	<section>
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6 order-lg-2">
-					<div class="p-5">
-						<img class="img-fluid rounded-circle" src="img/01.jpg" alt="">
-					</div>
-				</div>
-				<div class="col-lg-6 order-lg-1">
-					<div class="p-5">
-						<h2 class="display-4">For those about to rock...</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section>
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<div class="p-5">
-						<img class="img-fluid rounded-circle" src="img/02.jpg" alt="">
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="p-5">
-						<h2 class="display-4">We salute you!</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section>
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6 order-lg-2">
-					<div class="p-5">
-						<img class="img-fluid rounded-circle" src="img/03.jpg" alt="">
-					</div>
-				</div>
-				<div class="col-lg-6 order-lg-1">
-					<div class="p-5">
-						<h2 class="display-4">Let there be rock!</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 
 	<!-- Footer -->
 	<footer class="py-5 bg-black">
 		<div class="container">
-			<p class="m-0 text-center text-white small">Copyright &copy; Your Website 2019</p>
+			<p class="m-0 text-center text-white small">2019 Internet Programming Final Project &copy 12181637</p>
 		</div>
 		<!-- /.container -->
 	</footer>
@@ -226,11 +235,6 @@
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script>
-		function withdrawal() {
-			alert(1);
-		}
-	</script>
 </body>
 
 </html>
