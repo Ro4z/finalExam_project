@@ -148,7 +148,7 @@
 	<header class="masthead text-center text-white" style = "height: 700px; padding-top: calc(50px) !important;">
 		<div class="masthead-content" id="drawCanvas">
 			<div class="container" style = "text-align: left !important; margin-left: 200px!important;">
-				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoWrite()" value="글쓰기">
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="글쓰기">
 			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
@@ -163,9 +163,6 @@
 	<script>
 		function withdrawal() {
 			alert(1);
-		}
-		function gotoWrite(){
-			window.location.href = "./Write.jsp";
 		}
 	</script>
 </body>
