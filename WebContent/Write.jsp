@@ -32,6 +32,7 @@
 <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
 <script>
 	// Your web app's Firebase configuration
+	var db;
 	var firebaseConfig = {
 		apiKey : "AIzaSyDJPT1iTv_Bo0dXo78co_7hriUbhC0NQEQ",
 		authDomain : "ip001-final-project.firebaseapp.com",
@@ -42,88 +43,66 @@
 		appId : "1:1083544792257:web:315868cfabab79d41bb840"
 	};
 	// Initialize Firebase
-	firebase.initializeApp(firebaseConfig);
+	var app = firebase.initializeApp(firebaseConfig);
+	db = firebase.firestore(app);
+	const firestore = firebase.firestore();
+	const settings = {
+		timestampsInSnapshots : true
+	};
+	firestore.settings(settings);
+ 	function write(){
+		var articleKey = firebase.database().ref().push().key;
+	}
+	function withdrawal() {
+		swal({
+			  title: "정말 탈퇴 하시겠습니까?",
+			  text: "모든 정보가 삭제되며, 복구할 수 없습니다.",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+					var user_id = "<%=id%>";
+					var user_data = firebase.database().ref('user_data');
+					user_data.once('value', function(snapshot) {
+						snapshot.forEach(function(childSnapshot) {
+							console.log(childSnapshot.key);
+							if(childSnapshot.key == user_id){
+								user_data.child(childSnapshot.key).remove();
+							}
+							
+						});
+					});
+					
+					setTimeout(function(){
+						var user_data = firebase.database().ref('user_profile');
+						user_data.once('value', function(snapshot) {
+							snapshot.forEach(function(childSnapshot) {
+								console.log(childSnapshot.key);
+								if(childSnapshot.key == user_id){
+									user_data.child(childSnapshot.key).remove();
+								}
+								
+							});
+
+						    swal("탈퇴 완료", {
+						        icon: "info",
+						        button : false
+						      });
+						    setTimeout(function() {
+								window.location.href = "./LoginPage.jsp";
+							}, 1300)
+						});
+					},1000);
+
+			  } else {
+			    
+			  }
+			});
+	}
 </script>
-<script>
-	var canvas;
-	var context;
-	var dx = 5;
-	var dy = 5;
-	var WIDTH = 800;
-	var HEIGHT = 500;
-	var theta = 0.1;
-	var radius = 80;
-	var x = 400 + radius * Math.cos(theta);
-	var y = 250 + radius * Math.sin(theta);
-	function circle(x, y, r) {
-		context.beginPath();
-		context.arc(x, y, r, 0, Math.PI * 2, true);
-		context.fill();
-	}
 
-	function mainCircle() {
-		context.beginPath();
-		context.arc(400, 250, 70, 0, Math.PI * 2, true);
-		context.fill();
-
-	}
-
-	function rect(x, y, w, h) {
-		context.beginPath();
-		context.rect(x, y, w, h);
-		context.closePath();
-		context.fill();
-		context.stroke();
-	}
-
-	function clear() {
-		context.clearRect(0, 0, WIDTH, HEIGHT);
-	}
-
-	function doKeyDown(evt) {
-
-		switch (evt.keyCode) {
-
-			case 37: /* Left arrow was pressed */
-				theta -= 0.1;
-				x = 400 + radius * Math.cos(theta);
-				y = 250 + radius * Math.sin(theta);
-
-				evt.preventDefault();
-				break;
-			case 39: /* Right arrow was pressed */
-
-				theta += 0.1;
-				x = 400 + radius * Math.cos(theta);
-				y = 250 + radius * Math.sin(theta);
-
-				evt.preventDefault();
-				break;
-		}
-
-	}
-
-	function draw() {
-		clear();
-		context.fillStyle = "white";
-		context.strokeStyle = "black";
-		rect(0, 0, WIDTH, HEIGHT);
-		context.fillStyle = "#8e44ad";
-		circle(x, y, 10);
-		context.fillStyle = "#3498db";
-		mainCircle();
-	}
-
-	var context;
-	var canvas;
-	function startGame() {
-		document.getElementById("drawCanvas").innerHTML = '<canvas width="800" height="500" id="MyCanvas"></canvas>';
-		canvas = document.getElementById("MyCanvas");
-		context = canvas.getContext("2d");
-		return setInterval(draw, 10 / 60);
-	}
-	window.addEventListener('keydown', doKeyDown, true);
-</script>
 </head>
 
 <body>
@@ -145,10 +124,36 @@
 		</div>
 	</nav>
 
-	<header class="masthead text-center text-white" style = "height: 700px; padding-top: calc(50px) !important;">
+	<header class="masthead text-center text-white" style="height: 700px; padding-top: calc(110px) !important;">
 		<div class="masthead-content" id="drawCanvas">
-			<div class="container" style = "text-align: left !important; margin-left: 200px!important;">
-				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="글쓰기">
+			<div style="text-align: left !important;">
+
+				<div class="container" role="main">
+					<form name="form" id="form" role="form" method="post">
+
+						<div class="mb-3">
+
+							<label for="title">제목</label>
+
+							<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
+
+						</div>
+						<div class="mb-3">
+
+							<label for="content">내용</label>
+
+							<textarea class="form-control" rows="8" name="content" id="content" placeholder="내용을 입력해 주세요"></textarea>
+
+						</div>
+
+					</form>
+
+					<div>
+
+						<button type="button" class="btn btn-sm btn-primary" onclick="write()">글쓰기</button>
+					</div>
+				</div>
+
 			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>

@@ -150,6 +150,7 @@
 			<div class="container" style = "text-align: left !important; margin-left: 200px!important;">
 				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoWrite()" value="±Û¾²±â">
 			</div>
+			
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
 		<div class="bg-circle-2 bg-circle"></div>
