@@ -23,7 +23,8 @@
 <!-- Custom fonts for this template -->
 <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-
+<!-- sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Custom styles for this template -->
 <link href="css/one-page-wonder.min.css" rel="stylesheet">
 <!-- TODO: Add SDKs for Firebase products that you want to use
@@ -50,8 +51,43 @@
 		timestampsInSnapshots : true
 	};
 	firestore.settings(settings);
- 	function write(){
-		var articleKey = firebase.database().ref().push().key;
+ 	function writing(){
+ 		var id = "<%=id%>";
+ 		var title = document.getElementById("title").value;
+ 		var content = document.getElementById("content").value;
+		var postData={
+
+		};
+		
+		var newPostKey = firebase.database().ref().child('posts').push().key;
+		
+		firebase.database().ref('article/' + newPostKey).set({
+			author: id,
+			title: title,
+			content: content
+		  }, function(error) {
+		    if (error) {
+				swal({
+					title : "글 작성에 오류가 있습니다.\n",
+					text : "\n",
+					icon : "error",
+					timer : 1300,
+					button : false
+				})
+		    } else {
+				swal({
+					title : "글이 작성되었습니다.\n",
+					text : "\n",
+					icon : "success",
+					timer : 1300,
+					button : false
+				})
+				
+				setTimeout(function(){
+					window.location.href = "./Board.jsp";
+				},1500);
+		    }
+		  });
 	}
 	function withdrawal() {
 		swal({
@@ -150,7 +186,7 @@
 
 					<div>
 
-						<button type="button" class="btn btn-sm btn-primary" onclick="write()">글쓰기</button>
+						<button type="button" class="btn btn-sm btn-primary" onclick="writing()">글쓰기</button>
 					</div>
 				</div>
 
