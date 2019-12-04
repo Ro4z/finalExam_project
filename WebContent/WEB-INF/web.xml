@@ -11,4 +11,9 @@
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>com.servlet.LoginServlet</servlet-class>
 	</servlet>
+
+	<servlet>
+		<servlet-name>ArticleServlet</servlet-name>
+		<servlet-class></servlet-class>
+	</servlet>
 </web-app>

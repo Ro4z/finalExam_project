@@ -17,6 +17,8 @@
 
 <title>Main Page</title>
 
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -101,17 +103,36 @@
 	}
 	
 	function init(){
+		
+		
 		/* console.log(id + "#" + pw); */
 		var user_write = firebase.database().ref('article');
+		var table_body = document.getElementById("table_body");
+		var table_row;
+		var articleNum = 0;
+		var articleInfo = [];
 		var article ="";
+		
 		user_write.once('value', function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				article="";
 				var tmp = childSnapshot.val();
 				article+= tmp.author+"@"+tmp.content+"@"+tmp.title;
-				console.log(article);
+				articleInfo.push(article);
+				table_row = document.createElement("tr");
+				table_row.innerHTML = '<td>'+tmp.author+'</td><td><a href="javascript:read_article('+articleNum+
+						')"style ="color: white!important;">'+tmp.title+'</a></td>';
+				table_body.appendChild(table_row);
+				articleNum++;
+				console.log(articleNum);		
 			});
 		});
+		
+		console.log(articleNum);
+	}
+	
+	function read_article(articleNum){
+		alert(articleNum+4);
 	}
 </script>
 
@@ -143,23 +164,16 @@
 
 			</div>
 			<br>
-			<div class="container">
-				<table class="table table-stripted">
-					<thead>
+			<div class="container" style="font-family: 'Noto Sans KR', sans-serif !important;">
+				<table class="table table-stripted" style="color: white !important; width: 85%; text-align: center;">
+					<thead style="font-weight: bolder;">
 						<tr>
-							<th style="width: 150px !important;">力格</th>
-							<th>累己磊</th>
+							<th style="width: 150px !important;">累己磊</th>
+							<th>力格</th>
 						</tr>
 					</thead>
 					<tbody id="table_body">
-						<tr>
-							<td>1234</td>
-							<td>5678</td>
-						</tr>
-						<tr>
-							<td>1234</td>
-							<td>5678</td>
-						</tr>
+
 					</tbody>
 				</table>
 			</div>
@@ -169,6 +183,13 @@
 		<div class="bg-circle-3 bg-circle"></div>
 		<div class="bg-circle-4 bg-circle"></div>
 	</header>
+	<!-- Footer -->
+	<footer class="py-5 bg-black">
+		<div class="container">
+			<p class="m-0 text-center text-white small">2019 Internet Programming Final Project &copy 12181637</p>
+		</div>
+		<!-- /.container -->
+	</footer>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="vendor/jquery/jquery.min.js"></script>
