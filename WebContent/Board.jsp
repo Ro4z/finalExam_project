@@ -23,7 +23,8 @@
 <!-- Custom fonts for this template -->
 <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-
+<!-- sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- Custom styles for this template -->
 <link href="css/one-page-wonder.min.css" rel="stylesheet">
 <!-- TODO: Add SDKs for Firebase products that you want to use
@@ -43,90 +44,80 @@
 	};
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
+	// Initialize Firebase
+	var app = firebase.initializeApp(firebaseConfig);
+	db = firebase.firestore(app);
+	const firestore = firebase.firestore();
+	const settings = {
+		timestampsInSnapshots : true
+	};
+	firestore.settings(settings);
+	function withdrawal() {
+		swal({
+			  title: "정말 탈퇴 하시겠습니까?",
+			  text: "모든 정보가 삭제되며, 복구할 수 없습니다.",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+					var user_id = "<%=id%>";
+					var user_data = firebase.database().ref('user_data');
+					user_data.once('value', function(snapshot) {
+						snapshot.forEach(function(childSnapshot) {
+							console.log(childSnapshot.key);
+							if(childSnapshot.key == user_id){
+								user_data.child(childSnapshot.key).remove();
+							}
+							
+						});
+					});
+					setTimeout(function(){
+						var user_data = firebase.database().ref('user_profile');
+						user_data.once('value', function(snapshot) {
+							snapshot.forEach(function(childSnapshot) {
+								console.log(childSnapshot.key);
+								if(childSnapshot.key == user_id){
+									user_data.child(childSnapshot.key).remove();
+								}
+								
+							});
+
+						    swal("탈퇴 완료", {
+						        icon: "info",
+						        button : false
+						      });
+						    setTimeout(function() {
+								window.location.href = "./LoginPage.jsp";
+							}, 1300)
+						});
+					},1000);
+
+			  } else {
+			    
+			  }
+			});
+	}
+	
+	function init(){
+		/* console.log(id + "#" + pw); */
+		var user_write = firebase.database().ref('article');
+		var article ="";
+		user_write.once('value', function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				article="";
+				var tmp = childSnapshot.val();
+				article+= tmp.author+"@"+tmp.content+"@"+tmp.title;
+				console.log(article);
+			});
+		});
+	}
 </script>
-<script>
-	var canvas;
-	var context;
-	var dx = 5;
-	var dy = 5;
-	var WIDTH = 800;
-	var HEIGHT = 500;
-	var theta = 0.1;
-	var radius = 80;
-	var x = 400 + radius * Math.cos(theta);
-	var y = 250 + radius * Math.sin(theta);
-	function circle(x, y, r) {
-		context.beginPath();
-		context.arc(x, y, r, 0, Math.PI * 2, true);
-		context.fill();
-	}
 
-	function mainCircle() {
-		context.beginPath();
-		context.arc(400, 250, 70, 0, Math.PI * 2, true);
-		context.fill();
-
-	}
-
-	function rect(x, y, w, h) {
-		context.beginPath();
-		context.rect(x, y, w, h);
-		context.closePath();
-		context.fill();
-		context.stroke();
-	}
-
-	function clear() {
-		context.clearRect(0, 0, WIDTH, HEIGHT);
-	}
-
-	function doKeyDown(evt) {
-
-		switch (evt.keyCode) {
-
-			case 37: /* Left arrow was pressed */
-				theta -= 0.1;
-				x = 400 + radius * Math.cos(theta);
-				y = 250 + radius * Math.sin(theta);
-
-				evt.preventDefault();
-				break;
-			case 39: /* Right arrow was pressed */
-
-				theta += 0.1;
-				x = 400 + radius * Math.cos(theta);
-				y = 250 + radius * Math.sin(theta);
-
-				evt.preventDefault();
-				break;
-		}
-
-	}
-
-	function draw() {
-		clear();
-		context.fillStyle = "white";
-		context.strokeStyle = "black";
-		rect(0, 0, WIDTH, HEIGHT);
-		context.fillStyle = "#8e44ad";
-		circle(x, y, 10);
-		context.fillStyle = "#3498db";
-		mainCircle();
-	}
-
-	var context;
-	var canvas;
-	function startGame() {
-		document.getElementById("drawCanvas").innerHTML = '<canvas width="800" height="500" id="MyCanvas"></canvas>';
-		canvas = document.getElementById("MyCanvas");
-		context = canvas.getContext("2d");
-		return setInterval(draw, 10 / 60);
-	}
-	window.addEventListener('keydown', doKeyDown, true);
-</script>
 </head>
 
-<body>
+<body onload="init()">
 
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
@@ -145,12 +136,33 @@
 		</div>
 	</nav>
 
-	<header class="masthead text-center text-white" style = "height: 700px; padding-top: calc(50px) !important;">
+	<header class="masthead text-center text-white" style="height: 700px; padding-top: calc(50px) !important;">
 		<div class="masthead-content" id="drawCanvas">
-			<div class="container" style = "text-align: left !important; margin-left: 200px!important;">
+			<div class="container" style="text-align: left !important; padding-left: 70px !important;">
 				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoWrite()" value="글쓰기">
+
 			</div>
-			
+			<br>
+			<div class="container">
+				<table class="table table-stripted">
+					<thead>
+						<tr>
+							<th style="width: 150px !important;">제목</th>
+							<th>작성자</th>
+						</tr>
+					</thead>
+					<tbody id="table_body">
+						<tr>
+							<td>1234</td>
+							<td>5678</td>
+						</tr>
+						<tr>
+							<td>1234</td>
+							<td>5678</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
 		<div class="bg-circle-2 bg-circle"></div>
@@ -162,10 +174,7 @@
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script>
-		function withdrawal() {
-			alert(1);
-		}
-		function gotoWrite(){
+		function gotoWrite() {
 			window.location.href = "./Write.jsp";
 		}
 	</script>
