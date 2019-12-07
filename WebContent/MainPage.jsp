@@ -123,10 +123,21 @@
 		context.fill();
 	}
 
-	function mainCircle() {
-		context.beginPath();
-		context.arc(400, 250, 70, 0, Math.PI * 2, true);
-		context.fill();
+	function mainHexagon() {
+		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
+	    size= 70,
+	    x = 400,
+	    y = 250;
+		
+		hexa.beginPath();
+		hexa.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+
+		for (side; side <6; side++) {
+		  hexa.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
+		}
+
+		hexa.fillStyle = "#3498db";
+		hexa.fill();
 
 	}
 
@@ -165,15 +176,38 @@
 
 	}
 
+	function drawField(){
+		
+		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
+	    size= 1000,
+	    x = 400,
+	    y = 250;
+		
+		hexa.beginPath();
+		hexa.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+
+		for (side; side <6; side++) {
+			hexa.beginPath();
+			hexa.moveTo(400,250);
+			hexa.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
+			hexa.lineWidth = 3;
+			hexa.stroke();
+			
+		}
+
+
+		
+	}
 	function draw() {
 		clear();
 		context.fillStyle = "white";
 		context.strokeStyle = "black";
 		rect(0, 0, WIDTH, HEIGHT);
+		drawField();
 		context.fillStyle = "#8e44ad";
 		circle(x, y, 10);
 		context.fillStyle = "#3498db";
-		mainCircle();
+		mainHexagon();
 	}
 
 	var context;
