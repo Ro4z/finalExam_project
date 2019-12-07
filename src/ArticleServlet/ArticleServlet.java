@@ -1,6 +1,8 @@
-package com.servlet;
+package ArticleServlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,16 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class ArticleServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/ArticleServlet")
+public class ArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public ArticleServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,16 +30,12 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();
-		String id = new String(request.getParameter("id").getBytes("8859_1"),"KSC5601");
-		String pwd = request.getParameter("pwd");
-		
-		session.setAttribute("id", id);
-		session.setAttribute("pwd", pwd);
-		
-		
-		String login_suc = "MainPage.jsp";
-		response.sendRedirect(login_suc);
+        String info = new String(request.getParameter("info").getBytes("8859_1"),"KSC5601");
+       
+        HttpSession session = request.getSession();
+        session.setAttribute("info", info);
+        
+        response.sendRedirect("Article.jsp");
 	}
 
 	/**

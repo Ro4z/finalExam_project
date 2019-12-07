@@ -102,6 +102,7 @@
 			});
 	}
 	
+	var articleInfo;
 	function init(){
 		
 		
@@ -110,14 +111,14 @@
 		var table_body = document.getElementById("table_body");
 		var table_row;
 		var articleNum = 0;
-		var articleInfo = [];
+		articleInfo = [];
 		var article ="";
 		
 		user_write.once('value', function(snapshot) {
 			snapshot.forEach(function(childSnapshot) {
 				article="";
 				var tmp = childSnapshot.val();
-				article+= tmp.author+"@"+tmp.content+"@"+tmp.title;
+				article+= tmp.author+"@"+tmp.title+"@"+tmp.content;
 				articleInfo.push(article);
 				table_row = document.createElement("tr");
 				table_row.innerHTML = '<td>'+tmp.author+'</td><td><a href="javascript:read_article('+articleNum+
@@ -132,7 +133,21 @@
 	}
 	
 	function read_article(articleNum){
-		alert(articleNum+4);
+		var article_info = articleInfo[articleNum];
+		
+		var form = document.createElement("form");
+		form.setAttribute("method", "post");
+		form.setAttribute("action", "./ArticleServlet");
+		 
+		var Field = document.createElement("input");
+		Field.setAttribute("type", "hidden");
+		Field.setAttribute("name", "info");
+		Field.setAttribute("value", article_info);
+		 
+		form.appendChild(Field);
+		 
+		document.body.appendChild(form);
+		form.submit();
 	}
 </script>
 

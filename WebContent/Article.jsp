@@ -4,6 +4,13 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	String id = (String) session.getAttribute("id");
+	String info = (String) session.getAttribute("info");
+	String author = "user", title = "title", content = "content";
+	if (info != null) {
+		author = info.split("@")[0];
+		title = info.split("@")[1];
+		content = info.split("@")[2];
+	}
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,16 +109,8 @@
 	
 	function init(){
 		/* console.log(id + "#" + pw); */
-		var user_write = firebase.database().ref('article');
-		var article ="";
-		user_write.once('value', function(snapshot) {
-			snapshot.forEach(function(childSnapshot) {
-				article="";
-				var tmp = childSnapshot.val();
-				article+= tmp.author+"@"+tmp.content+"@"+tmp.title;
-				console.log(article);
-			});
-		});
+		var info = "<%=info%>";
+		
 	}
 </script>
 
@@ -137,13 +136,27 @@
 	</nav>
 
 	<header class="masthead text-center text-white" style="height: 700px; padding-top: calc(50px) !important;">
-		<div class="masthead-content" id="drawCanvas">
-			<div class="container" style="text-align: left !important; padding-left: 70px !important;">
-				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoWrite()" value="글쓰기">
+		<div class="masthead-content" id="drawCanvas" style="margin: 25%; margin-top: 2em !important;">
+			<div class="container" style="text-align: left !important; padding-left: 10px !important;">
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoBoard()" value="목록으로 돌아가기" style = "margin-bottom: 1em; text-aling: left;">
 
 			</div>
-			<br>
-		
+			<div class="articleTitleWrap" style="border-top: 2px solid #666; border-bottom: 1px solid #ddd; padding: 10px; background: f #fafafa; text-align: left !important;">
+				<h2 class="articleTitle" style="line-height: 1.0; font-size: 18px; font-weight: 500;"><%=title%></h2>
+				<div class="articleInfo">
+					<dl>
+						<dt>
+							작성자:
+							<%=author%></dt>
+
+					</dl>
+				</div>
+			</div>
+			<div style="height: 20em !important; color: #000 !important; background: #e9e9e9; text-align: left;">
+				<div style="padding: 0.7em;">
+					<%=content%>
+				</div>
+			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
 		<div class="bg-circle-2 bg-circle"></div>
@@ -155,8 +168,8 @@
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script>
-		function gotoWrite() {
-			window.location.href = "./Write.jsp";
+		function gotoBoard() {
+			window.location.href = "./Board.jsp";
 		}
 	</script>
 </body>
