@@ -111,12 +111,12 @@
 	var context;
 	var dx = 5;
 	var dy = 5;
-	var WIDTH = 800;
-	var HEIGHT = 500;
+	var WIDTH = 600;
+	var HEIGHT = 600;
 	var theta = 0.1;
 	var radius = 80;
-	var x = 400 + radius * Math.cos(theta);
-	var y = 250 + radius * Math.sin(theta);
+	var x = 300 + radius * Math.cos(theta);
+	var y = 300 + radius * Math.sin(theta);
 	function circle(x, y, r) {
 		context.beginPath();
 		context.arc(x, y, r, 0, Math.PI * 2, true);
@@ -126,8 +126,8 @@
 	function mainHexagon() {
 		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
 	    size= 70,
-	    x = 400,
-	    y = 250;
+	    x = 300,
+	    y = 300;
 		
 		hexa.beginPath();
 		hexa.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
@@ -148,7 +148,17 @@
 		context.fill();
 		context.stroke();
 	}
+	
+	function rect2(x, y, w, h) {
+		context.beginPath();
+		context.fillStyle ="#8e44ad";
+		context.rect(x, y, w, h);
+		context.closePath();
+		context.fill();
+		context.stroke();
+	}
 
+	
 	function clear() {
 		context.clearRect(0, 0, WIDTH, HEIGHT);
 	}
@@ -159,16 +169,16 @@
 
 			case 37: /* Left arrow was pressed */
 				theta -= 0.1;
-				x = 400 + radius * Math.cos(theta);
-				y = 250 + radius * Math.sin(theta);
+				x = 300 + radius * Math.cos(theta);
+				y = 300 + radius * Math.sin(theta);
 
 				evt.preventDefault();
 				break;
 			case 39: /* Right arrow was pressed */
 
 				theta += 0.1;
-				x = 400 + radius * Math.cos(theta);
-				y = 250 + radius * Math.sin(theta);
+				x = 300 + radius * Math.cos(theta);
+				y = 300 + radius * Math.sin(theta);
 
 				evt.preventDefault();
 				break;
@@ -180,43 +190,148 @@
 		
 		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
 	    size= 1000,
-	    x = 400,
-	    y = 250;
+	    x = 300,
+	    y = 300;
+		hexa.beginPath();
+		hexa.moveTo(300,300);
+		hexa.lineTo(0, 0);
+		hexa.lineWidth = 3;
+		hexa.stroke();
+			
+		hexa.beginPath();
+		hexa.moveTo(300,300);
+		hexa.lineTo(600, 0);
+		hexa.lineWidth = 3;
+		hexa.stroke();
 		
 		hexa.beginPath();
-		hexa.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
-
-		for (side; side <6; side++) {
-			hexa.beginPath();
-			hexa.moveTo(400,250);
-			hexa.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
-			hexa.lineWidth = 3;
-			hexa.stroke();
-			
-		}
-
-
+		hexa.moveTo(300,300);
+		hexa.lineTo(0, 600);
+		hexa.lineWidth = 3;
+		hexa.stroke();
 		
+		hexa.beginPath();
+		hexa.moveTo(300,300);
+		hexa.lineTo(600, 600);
+		hexa.lineWidth = 3;
+		hexa.stroke();
 	}
+	//위쪽에서 날라오는 막대
+	var segX=300,segY=0;
+	function test(){
+		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
+	    size= 1000;
+		
+		if(segX<0){ segX=300; segY = 0;}
+		
+		hexa.beginPath();
+		hexa.moveTo(300-segX,segY - 5);
+		hexa.lineTo(300+segX,segY - 5);
+		hexa.lineWidth = 15;
+		hexa.stroke();
+		
+		segX -= Math.sqrt(2)/2.0*2.2;
+		segY += Math.sqrt(2)/2.0*2.2;
+
+	}
+	
+	//오른쪽에서 날라오는 막대
+	var segX2=600,segY2=0;
+	function test2(){
+		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
+	    size= 1000;
+		
+		if(segX2<300){ segX2=600; segY2 = 0;}
+		
+		hexa.beginPath();
+		hexa.moveTo(segX2 + 5,segY2);
+		hexa.lineTo(segX2 + 5,600 - segY2);
+		hexa.lineWidth = 15;
+		hexa.stroke();
+		
+		segX2 -= Math.sqrt(2)/2.0*2.2;
+		segY2 += Math.sqrt(2)/2.0*2.2;
+	}
+	
+	//왼쪽에서 날라오는 막대
+	var segX3=0,segY3=0;
+	function test3(){
+		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
+	    size= 1000;
+		
+		if(segX3>300){ segX3=0; segY3 = 0;}
+		
+		hexa.beginPath();
+		hexa.moveTo(segX3 - 5,segY3);
+		hexa.lineTo(segX3 - 5,600 - segY3);
+		hexa.lineWidth = 15;
+		hexa.stroke();
+		
+		segX3 += Math.sqrt(2)/2.0*2.2;
+		segY3 += Math.sqrt(2)/2.0*2.2;
+	}
+	
+	//아래에서 날라오는 막대
+	var segX4=300,segY4=0;
+	function test4(){
+		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
+	    size= 1000;
+		
+		if(segX4<0){ segX4=300; segY4 = 600;}
+		
+		hexa.beginPath();
+		hexa.moveTo(300-segX4,segY4 + 5);
+		hexa.lineTo(300+segX4,segY4 + 5);
+		hexa.lineWidth = 15;
+		hexa.stroke();
+		
+		segX4 -= Math.sqrt(2)/2.0*2.2;
+		segY4 -= Math.sqrt(2)/2.0*2.2;
+	}
+	
 	function draw() {
 		clear();
 		context.fillStyle = "white";
 		context.strokeStyle = "black";
+		context.lineWidth = 1.2;
 		rect(0, 0, WIDTH, HEIGHT);
+		var numOfSeg = Math.floor(Math.random() * 4);
+		if(numOfSeg==0){
+			
+		}
+		else if(numOfSeg==1){
+			test();
+		}
+		else if(numOfSeg==2){
+			test2();
+			test3();
+		}
+		else if(numOfSeg==3){
+			test();
+			test2();
+			test4();
+		}
+		
+		
+		
+		
 		drawField();
+		context.lineWidth = 0.1;
+		rect2(300-50*Math.tan(Math.PI/4),300-50*Math.tan(Math.PI/4),100*Math.tan(Math.PI/4),100*Math.tan(Math.PI/4));
 		context.fillStyle = "#8e44ad";
 		circle(x, y, 10);
 		context.fillStyle = "#3498db";
-		mainHexagon();
+		
+		//test code
 	}
 
 	var context;
 	var canvas;
 	function startGame() {
-		document.getElementById("drawCanvas").innerHTML = '<canvas width="800" height="500" id="MyCanvas"></canvas>';
+		document.getElementById("drawCanvas").innerHTML = '<canvas width="600" height="600" id="MyCanvas"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
-		return setInterval(draw, 10 / 60);
+		return setInterval(draw, 1000 / 60);
 	}
 	window.addEventListener('keydown', doKeyDown, true);
 </script>
