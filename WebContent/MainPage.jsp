@@ -216,13 +216,15 @@
 		hexa.lineWidth = 3;
 		hexa.stroke();
 	}
+	
+	var recurSeg = true;
 	//위쪽에서 날라오는 막대
 	var segX=300,segY=0;
-	function test(){
+	function segment1(){
 		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
 	    size= 1000;
 		
-		if(segX<0){ segX=300; segY = 0;}
+		if(segX<0){ recurSeg = true;}
 		
 		hexa.beginPath();
 		hexa.moveTo(300-segX,segY - 5);
@@ -237,11 +239,11 @@
 	
 	//오른쪽에서 날라오는 막대
 	var segX2=600,segY2=0;
-	function test2(){
+	function segment2(){
 		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
 	    size= 1000;
 		
-		if(segX2<300){ segX2=600; segY2 = 0;}
+		if(segX2<300){ recurSeg = true;}
 		
 		hexa.beginPath();
 		hexa.moveTo(segX2 + 5,segY2);
@@ -255,11 +257,11 @@
 	
 	//왼쪽에서 날라오는 막대
 	var segX3=0,segY3=0;
-	function test3(){
+	function segment3(){
 		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
 	    size= 1000;
 		
-		if(segX3>300){ segX3=0; segY3 = 0;}
+		if(segX3>300){ recurSeg = true;}
 		
 		hexa.beginPath();
 		hexa.moveTo(segX3 - 5,segY3);
@@ -272,12 +274,12 @@
 	}
 	
 	//아래에서 날라오는 막대
-	var segX4=300,segY4=0;
-	function test4(){
+	var segX4=300,segY4=600;
+	function segment4(){
 		var hexa = document.querySelector('#MyCanvas').getContext('2d'),side = 0,
 	    size= 1000;
 		
-		if(segX4<0){ segX4=300; segY4 = 600;}
+		if(segX4<0){ recurSeg = true;}
 		
 		hexa.beginPath();
 		hexa.moveTo(300-segX4,segY4 + 5);
@@ -287,34 +289,63 @@
 		
 		segX4 -= Math.sqrt(2)/2.0*2.2;
 		segY4 -= Math.sqrt(2)/2.0*2.2;
+		
+		
+	}
+	var gen_seg = [false,false,false,false];
+	function initSeg(){
+		segX=300,segY=0;
+		segX2=600,segY2=0;
+		segX3=0,segY3=0;
+		segX4=300,segY4=600;
 	}
 	
+	
+	
+	
+	
+	var numOfSeg;
 	function draw() {
 		clear();
 		context.fillStyle = "white";
 		context.strokeStyle = "black";
 		context.lineWidth = 1.2;
 		rect(0, 0, WIDTH, HEIGHT);
-		var numOfSeg = Math.floor(Math.random() * 4);
-		if(numOfSeg==0){
+		if(recurSeg){
+			initSeg();
 			
+			gen_seg = [false,false,false,false];
+			recurSeg = false;
+			numOfSeg =Math.floor(Math.random() * 3) + 1;
+			console.log(numOfSeg);
+			switch(numOfSeg){
+				case 1:
+					while(numOfSeg--){
+						console.log("selecting at 1");
+						var select = Math.floor(Math.random() * 4);
+						if(gen_seg[select] == false)  gen_seg[select] = true;
+					}
+					break;
+				case 2:
+					while(numOfSeg--){
+						console.log("selecting at 2");
+						var select = Math.floor(Math.random() * 4);
+						if(gen_seg[select] == false)  gen_seg[select] = true;
+					}
+					break;
+				case 3:
+					while(numOfSeg--){
+						console.log("selecting at 3");
+						var select = Math.floor(Math.random() * 4);
+						if(gen_seg[select] == false)  gen_seg[select] = true;
+					}
+					break;
+			}
 		}
-		else if(numOfSeg==1){
-			test();
-		}
-		else if(numOfSeg==2){
-			test2();
-			test3();
-		}
-		else if(numOfSeg==3){
-			test();
-			test2();
-			test4();
-		}
-		
-		
-		
-		
+		if(gen_seg[0] == true) segment1();
+		if(gen_seg[1] == true) segment2();
+		if(gen_seg[2] == true) segment3();
+		if(gen_seg[3] == true) segment4();
 		drawField();
 		context.lineWidth = 0.1;
 		rect2(300-50*Math.tan(Math.PI/4),300-50*Math.tan(Math.PI/4),100*Math.tan(Math.PI/4),100*Math.tan(Math.PI/4));
