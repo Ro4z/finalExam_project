@@ -305,13 +305,14 @@
 	
 	
 	var numOfSeg;
+	var gameOver = false;
 	function draw() {
 		clear();
 		context.fillStyle = "white";
 		context.strokeStyle = "black";
 		context.lineWidth = 1.2;
 		rect(0, 0, WIDTH, HEIGHT);
-		if(recurSeg){
+		if(recurSeg&&!gameOver){
 			initSeg();
 			
 			gen_seg = [false,false,false,false];
@@ -342,10 +343,43 @@
 					break;
 			}
 		}
-		if(gen_seg[0] == true) segment1();
-		if(gen_seg[1] == true) segment2();
-		if(gen_seg[2] == true) segment3();
-		if(gen_seg[3] == true) segment4();
+
+		if(!gameOver){
+			if(gen_seg[0] == true){
+				segment1();
+				
+				if(segX < 90 && segY > 210 && y< 243  && segY < 220){
+					gameOver = true;
+					console.log("collision");
+				}
+			}
+			if(gen_seg[1] == true) {
+				segment2();
+
+				if(segX2 < 390 && segY2 > 210 && x > 354  && segY2 < 220){
+					gameOver = true;
+					console.log("collision");
+				}
+				
+			}
+			if(gen_seg[2] == true){
+				segment3();
+				
+				if(segX3 > 210 && segY3 > 210 && x < 240  && segY3 < 220){
+					gameOver = true;
+					console.log("collision");
+				}
+				
+			}
+			if(gen_seg[3] == true) {
+				segment4();
+				if(segX4 < 90 && segY4 > 380 && y > 350  && segY4 < 390){
+					gameOver = true;
+					console.log("collision");
+				}
+			}
+		}
+		
 		drawField();
 		context.lineWidth = 0.1;
 		rect2(300-50*Math.tan(Math.PI/4),300-50*Math.tan(Math.PI/4),100*Math.tan(Math.PI/4),100*Math.tan(Math.PI/4));
