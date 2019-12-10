@@ -217,7 +217,9 @@
 		hexa.stroke();
 	}
 	
+	
 	var recurSeg = true;
+	var speed = 1.0;
 	//위쪽에서 날라오는 막대
 	var segX=300,segY=0;
 	function segment1(){
@@ -232,8 +234,8 @@
 		hexa.lineWidth = 15;
 		hexa.stroke();
 		
-		segX -= Math.sqrt(2)/2.0*2.2;
-		segY += Math.sqrt(2)/2.0*2.2;
+		segX -= Math.sqrt(2)/2.0*2.2*speed;
+		segY += Math.sqrt(2)/2.0*2.2*speed;
 
 	}
 	
@@ -251,8 +253,8 @@
 		hexa.lineWidth = 15;
 		hexa.stroke();
 		
-		segX2 -= Math.sqrt(2)/2.0*2.2;
-		segY2 += Math.sqrt(2)/2.0*2.2;
+		segX2 -= Math.sqrt(2)/2.0*2.2*speed;;
+		segY2 += Math.sqrt(2)/2.0*2.2*speed;;
 	}
 	
 	//왼쪽에서 날라오는 막대
@@ -269,8 +271,8 @@
 		hexa.lineWidth = 15;
 		hexa.stroke();
 		
-		segX3 += Math.sqrt(2)/2.0*2.2;
-		segY3 += Math.sqrt(2)/2.0*2.2;
+		segX3 += Math.sqrt(2)/2.0*2.2*speed;;
+		segY3 += Math.sqrt(2)/2.0*2.2*speed;;
 	}
 	
 	//아래에서 날라오는 막대
@@ -287,8 +289,8 @@
 		hexa.lineWidth = 15;
 		hexa.stroke();
 		
-		segX4 -= Math.sqrt(2)/2.0*2.2;
-		segY4 -= Math.sqrt(2)/2.0*2.2;
+		segX4 -= Math.sqrt(2)/2.0*2.2*speed;;
+		segY4 -= Math.sqrt(2)/2.0*2.2*speed;
 		
 		
 	}
@@ -314,7 +316,7 @@
 		rect(0, 0, WIDTH, HEIGHT);
 		if(recurSeg&&!gameOver){
 			initSeg();
-			
+			speed += 0.07;
 			gen_seg = [false,false,false,false];
 			recurSeg = false;
 			numOfSeg =Math.floor(Math.random() * 3) + 1;
