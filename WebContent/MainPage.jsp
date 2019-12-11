@@ -103,11 +103,59 @@
 		
 		
 	
-
-
 	}
-</script>
-<script>
+		
+		var rank_info = [];
+		function rankingComposition(){
+			rank_info = [];
+			var rankingRef = firebase.database().ref("user_ranking").orderByChild('score').limitToLast(100);;
+			rankingRef.once('value', function(snapshot) {
+				snapshot.forEach(function(childSnapshot) {
+					
+					var tmp = childSnapshot.val();
+					console.log(tmp.score+"@"+tmp.user_id);
+					rank_info.push(tmp.user_id+"@"+tmp.score);
+				});
+				var table_body = document.getElementById("table_body");
+				var innerHtml = "";
+				var temp = 1;
+				for(var i=rank_info.length-1;i>=0;i--){
+					innerHtml+="<tr>"
+					+"<td>" +temp+"</td>"
+					+"<td>" +rank_info[i].split("@")[0]+"</td>"
+					+"<td>" +rank_info[i].split("@")[1]+"</td>"
+					+"</tr>";
+					temp++;
+				}
+				console.log("composit..."+innerHtml);
+				table_body.innerHTML = innerHtml;
+			});
+			//
+			
+		}
+	
+		function registerRanking(score){
+			var id = "<%=id%>";
+			var user_score = (score==-1?0:score);
+			var nowDay = new Date();
+			firebase.database().ref('/user_ranking/' + id).set({
+				user_id: id,
+                score: Number(score),
+                rgstrDate: nowDay.toString(),
+            });
+
+        	swal({
+				title : "등록 완료!",
+				text : "정상적으로  랭킹에 등록 되었습니다!",
+				icon : "success",
+				timer : 1200,
+				button : false
+			})
+			
+			rankingComposition();
+		}
+	
+
 	var canvas;
 	var context;
 	var dx = 5;
@@ -310,6 +358,7 @@
 	var numOfSeg;
 	var gameOver = false;
 	var intervalId;
+	var score = 0;
 	function draw() {
 		clear();
 		context.fillStyle = "white";
@@ -317,7 +366,9 @@
 		context.lineWidth = 1.2;
 		rect(0, 0, WIDTH, HEIGHT);
 		if(recurSeg&&!gameOver){
+			score++;
 			initSeg();
+			document.getElementById("score").innerHTML = "<h3> &nbspScore: "+score.toString() +"</h3>";
 			speed += 0.07;
 			gen_seg = [false,false,false,false];
 			recurSeg = false;
@@ -384,27 +435,31 @@
 			}
 		}else{
 			clearInterval(intervalId);
-			swal("Game Over", {
+			swal("Game Over!","내 점수는 "+(score==-1?0:score.toString())+" 입니다." , {
 				  buttons: {
-				    
+				    rank:{
+				    	text: "랭킹 등록",
+				    	value: "rank",
+				    },
 				    reGame: {
 				      text: "다시 하기",
 				      value: "reGame",
 				    },
-				    defeat: true,
+				    그만하기: true,
 				  },
 				})
 				.then((value) => {
 				  switch (value) {
 				 
-				    
-				 
+					
+				 	
 				    case "reGame":
 				      gameOver = false;
 				      initSeg();
 				      startGame();
 				      break;
-				 
+				    case "rank":
+						registerRanking(score);
 				    default:
 				      gameOver = false;
 				  }
@@ -420,23 +475,27 @@
 		
 		//test code
 	}
-
+	
+	
 	var context;
 	var canvas;
 	function startGame() {
+		speed = 1;
+		score = -1;
 		gameOver = false;
 		initSeg();
-		document.getElementById("drawCanvas").innerHTML = '<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작" style="margin-bottom: 20px;"><br>' 
-		+'<canvas width="700" height="700" id="MyCanvas" style="text-align: center !important;"></canvas>';
+		document.getElementById("drawCanvas").innerHTML = '<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작" style="margin-bottom: 20px;"><br>'
+		+'<div style="font-family: Noto Sans KR; color: white; width: 500px; height: 3em;text-align: right; padding-right: 300px; margin-left: 25%; vertical-align: middle;margin-right: 200px;" id="score"><h3> &nbspScore: 0</h3></div>' 
+		+'<canvas width="600" height="600" id="MyCanvas" style="text-align: center !important;"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
-		
 		document.getElementById("tableWrap").style["visibility"] = "visible";
 		document.getElementById("tableWrap").style["width"] = "25%";
 		document.getElementById("tableWrap").style["float"] = "left";
 		document.getElementById("tableWrap").style["padding-left"] = "3em";
 	
 		intervalId = setInterval(draw, 1000 / 60);
+		rankingComposition();
 	}
 	window.addEventListener('keydown', doKeyDown, true);
 </script>
@@ -462,25 +521,23 @@
 		</div>
 	</nav>
 
-	<header class="masthead text-center text-white" style= "padding-top: 175px;">
-		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%; margin-left: 100px;" >
+	<header class="masthead text-center text-white" style="padding-top: 125px;">
+		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%; margin-left: 10%;">
 			<br>
 			<table class="table table-stripted" style="color: white !important; width: 220px; text-align: center; padding-right: 0;" id="tableWrap">
 				<thead style="font-weight: bolder;">
 					<tr>
-						<th>&nbsp&nbsp&nbsp</th>
-						<th >user</th>
+						<th>&nbsp&nbsp#&nbsp</th>
+						<th>user</th>
 						<th>score</th>
 					</tr>
 				</thead>
 				<tbody id="table_body">
-					<td>1</td>
-					<td>지민이</td>
-					<td>100</td>
+					
 				</tbody>
 			</table>
 		</div>
-		<div class="masthead-content" id="drawCanvas"  >
+		<div class="masthead-content" id="drawCanvas">
 
 			<div class="container">
 				<h1 class="masthead-heading mb-0">환영합니다!</h1>
