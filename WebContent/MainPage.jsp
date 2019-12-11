@@ -309,6 +309,7 @@
 	
 	var numOfSeg;
 	var gameOver = false;
+	var intervalId;
 	function draw() {
 		clear();
 		context.fillStyle = "white";
@@ -346,7 +347,7 @@
 					break;
 			}
 		}
-
+		console.log((gameOver == true?1:0));
 		if(!gameOver){
 			if(gen_seg[0] == true){
 				segment1();
@@ -381,6 +382,33 @@
 					console.log("collision");
 				}
 			}
+		}else{
+			clearInterval(intervalId);
+			swal("Game Over", {
+				  buttons: {
+				    
+				    reGame: {
+				      text: "다시 하기",
+				      value: "reGame",
+				    },
+				    defeat: true,
+				  },
+				})
+				.then((value) => {
+				  switch (value) {
+				 
+				    
+				 
+				    case "reGame":
+				      gameOver = false;
+				      initSeg();
+				      startGame();
+				      break;
+				 
+				    default:
+				      gameOver = false;
+				  }
+				});
 		}
 		
 		drawField();
@@ -396,7 +424,10 @@
 	var context;
 	var canvas;
 	function startGame() {
-		document.getElementById("drawCanvas").innerHTML = '<canvas width="600" height="600" id="MyCanvas"></canvas>';
+		gameOver = false;
+		initSeg();
+		document.getElementById("drawCanvas").innerHTML = '<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작" style="margin-bottom: 20px;"><br>' 
+		+'<canvas width="700" height="700" id="MyCanvas" style="text-align: center !important;"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
 		
@@ -405,7 +436,7 @@
 		document.getElementById("tableWrap").style["float"] = "left";
 		document.getElementById("tableWrap").style["padding-left"] = "3em";
 	
-		return setInterval(draw, 1000 / 60);
+		intervalId = setInterval(draw, 1000 / 60);
 	}
 	window.addEventListener('keydown', doKeyDown, true);
 </script>
@@ -414,7 +445,7 @@
 <body>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" >
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="./MainPage.jsp">HomePage</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -431,21 +462,25 @@
 		</div>
 	</nav>
 
-	<header class="masthead text-center text-white">
-		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%">
-			<table class="table table-stripted" style="color: white !important; width: 85%; text-align: center;" id="tableWrap">
+	<header class="masthead text-center text-white" style= "padding-top: 175px;">
+		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%; margin-left: 100px;" >
+			<br>
+			<table class="table table-stripted" style="color: white !important; width: 220px; text-align: center; padding-right: 0;" id="tableWrap">
 				<thead style="font-weight: bolder;">
 					<tr>
-						<th style="width: 150px !important;">작성자</th>
-						<th>제목</th>
+						<th>&nbsp&nbsp&nbsp</th>
+						<th >user</th>
+						<th>score</th>
 					</tr>
 				</thead>
 				<tbody id="table_body">
-
+					<td>1</td>
+					<td>지민이</td>
+					<td>100</td>
 				</tbody>
 			</table>
 		</div>
-		<div class="masthead-content" id="drawCanvas" style="float: right;">
+		<div class="masthead-content" id="drawCanvas"  >
 
 			<div class="container">
 				<h1 class="masthead-heading mb-0">환영합니다!</h1>
