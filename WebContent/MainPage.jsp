@@ -485,7 +485,7 @@
 		gameOver = false;
 		initSeg();
 		document.getElementById("drawCanvas").innerHTML = '<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작" style="margin-bottom: 20px;"><br>'
-		+'<div style="font-family: Noto Sans KR; color: white; width: 500px; height: 3em;text-align: right; padding-right: 300px; margin-left: 25%; vertical-align: middle;margin-right: 200px;" id="score"><h3> &nbspScore: 0</h3></div>' 
+		+'<div class="masthead-content" style="font-family: Noto Sans KR; color: white; width: 500px; height: 3em;text-align: right; padding-right: 300px; margin-left: 25%; vertical-align: middle;margin-right: 200px; position: absolute;" id="score"><h3> &nbspScore: 0</h3></div>' 
 		+'<canvas width="600" height="600" id="MyCanvas" style="text-align: center !important;"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
@@ -521,10 +521,10 @@
 		</div>
 	</nav>
 
-	<header class="masthead text-center text-white" style="padding-top: 125px;">
-		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%; margin-left: 10%;">
+	<header class="masthead text-center text-white" style="padding-top: 130px;">
+		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%; margin-left: 10%;float: left;">
 			<br>
-			<table class="table table-stripted" style="color: white !important; width: 220px; text-align: center; padding-right: 0;" id="tableWrap">
+			<table class="table table-stripted" style="color: white !important; width: 220px; text-align: center; padding-right: 0; margin-left: 0!important;" id="tableWrap">
 				<thead style="font-weight: bolder;">
 					<tr>
 						<th>&nbsp&nbsp#&nbsp</th>
@@ -540,7 +540,7 @@
 		<div class="masthead-content" id="drawCanvas">
 
 			<div class="container">
-				<h1 class="masthead-heading mb-0">환영합니다!</h1>
+				<h1 class="masthead-heading mb-0" style = "font-size: 5rem!important;">환영합니다!</h1>
 				<h2 class="masthead-subheading mb-0" id="welcome"><%=id%>님 안녕하세요!
 				</h2>
 				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작">

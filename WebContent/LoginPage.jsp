@@ -86,7 +86,9 @@
 						button : false
 					})
 					setTimeout(function() {
-						window.location.href = "./AdminPage.jsp";
+						var form = document.getElementById("loginForm");
+						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
+						form.submit();
 					}, 1300)
 				} else {
 					swal({
@@ -144,7 +146,7 @@
 					})
 				}
 			});
-			
+
 		}
 
 		$("#login").keypress(function(e) {

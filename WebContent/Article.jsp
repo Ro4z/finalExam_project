@@ -107,9 +107,20 @@
 			});
 	}
 	
+
+	
+	
 	function init(){
 		/* console.log(id + "#" + pw); */
 		var info = "<%=info%>";
+		var id = "<%=id%>";
+		var author = "<%=author%>";
+		console.log("id is "+id);
+		
+		if(id == author || id == "admin"){
+			document.getElementById("deleteBtn").style.visibility = "visible";
+			
+		}
 		
 	}
 </script>
@@ -138,7 +149,8 @@
 	<header class="masthead text-center text-white" style="height: 700px; padding-top: calc(50px) !important;">
 		<div class="masthead-content" id="drawCanvas" style="margin: 25%; margin-top: 2em !important;">
 			<div class="container" style="text-align: left !important; padding-left: 10px !important;">
-				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoBoard()" value="목록으로 돌아가기" style = "margin-bottom: 1em; text-aling: left;">
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="gotoBoard()" value="목록으로 돌아가기" style="margin-bottom: 1em; text-aling: left;">
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="deleteArticle()" value="글 삭제하기" style="margin-bottom: 1em; text-aling: left; visibility: hidden;" id="deleteBtn">
 
 			</div>
 			<div class="articleTitleWrap" style="border-top: 2px solid #666; border-bottom: 1px solid #ddd; padding: 10px; background: f #fafafa; text-align: left !important;">
@@ -171,6 +183,48 @@
 		function gotoBoard() {
 			window.location.href = "./Board.jsp";
 		}
+		
+		function deleteArticle() {
+			swal({
+				  title: "정말 삭제 하시겠습니까?",
+				  text: "",
+				  icon: "warning",
+				  buttons: true,
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+						var user_id = "<%=id%>";
+						var content = "<%=content%>";
+						var title = "<%=title%>";
+						var user_article = firebase.database().ref('article');
+						user_article.once('value', function(snapshot) {
+							snapshot.forEach(function(childSnapshot) {
+								var temp = childSnapshot.val();
+								if(temp.author == user_id){
+									if(temp.title == title){
+										if(temp.content == content){
+											user_article.child(childSnapshot.key).remove();
+
+										    swal("삭제 완료", {
+										        icon: "info",
+											        button : false
+											      });
+										    setTimeout(function() {
+												window.history.back();
+											}, 1300)
+										}
+									}
+								}
+							});
+						});
+
+				  }
+						
+						
+
+				  });
+				}
 	</script>
 </body>
 
