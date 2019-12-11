@@ -16,7 +16,8 @@
 <meta name="author" content="">
 
 <title>Main Page</title>
-
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -398,6 +399,12 @@
 		document.getElementById("drawCanvas").innerHTML = '<canvas width="600" height="600" id="MyCanvas"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
+		
+		document.getElementById("tableWrap").style["visibility"] = "visible";
+		document.getElementById("tableWrap").style["width"] = "25%";
+		document.getElementById("tableWrap").style["float"] = "left";
+		document.getElementById("tableWrap").style["padding-left"] = "3em";
+	
 		return setInterval(draw, 1000 / 60);
 	}
 	window.addEventListener('keydown', doKeyDown, true);
@@ -407,7 +414,7 @@
 <body>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top" >
 		<div class="container">
 			<a class="navbar-brand" href="./MainPage.jsp">HomePage</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -425,7 +432,21 @@
 	</nav>
 
 	<header class="masthead text-center text-white">
-		<div class="masthead-content" id="drawCanvas">
+		<div class="container masthead-content" id="tableWrap" style="font-family: 'Noto Sans KR', sans-serif !important; visibility: hidden; height: 75%">
+			<table class="table table-stripted" style="color: white !important; width: 85%; text-align: center;" id="tableWrap">
+				<thead style="font-weight: bolder;">
+					<tr>
+						<th style="width: 150px !important;">작성자</th>
+						<th>제목</th>
+					</tr>
+				</thead>
+				<tbody id="table_body">
+
+				</tbody>
+			</table>
+		</div>
+		<div class="masthead-content" id="drawCanvas" style="float: right;">
+
 			<div class="container">
 				<h1 class="masthead-heading mb-0">환영합니다!</h1>
 				<h2 class="masthead-subheading mb-0" id="welcome"><%=id%>님 안녕하세요!
