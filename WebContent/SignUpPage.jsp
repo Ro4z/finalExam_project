@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+	String can_sign_up = (String) session.getAttribute("canSignUp");
+	String info = (String) session.getAttribute("info");
+%>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -29,6 +36,36 @@
 	};
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
+	
+	function init(){
+		var canSignUp = "<%=can_sign_up%>";
+		var user_info = "<%=info%>";
+		var id = user_info.split("@")[0];
+		var pw = user_info.split("@")[1];
+		var name = user_info.split("@")[2];
+		var email = user_info.split("@")[3];
+		if(canSignUp == "true"){
+            firebase.database().ref('/user_data/' + id).set({
+                user_id: id,
+                user_pw: pw,
+            });
+            firebase.database().ref('/user_profile/' + id).set({
+            	user_id: id,
+                user_name: name,
+                user_email: email,
+            });
+        	swal({
+				title : "가입 완료!",
+				text : "정상적으로 회원가입 되었습니다!",
+				icon : "success",
+				timer : 2000,
+				button : false
+			})
+			setTimeout(function() {
+				window.location.href = "./LoginPage.jsp";
+			}, 1300)
+		}
+	}
 </script>
 </head>
 <body>
@@ -41,7 +78,7 @@
 			var pw = document.getElementById("pw").value;
 			var name = document.getElementById('name').value;
 			var email = document.getElementById('email').value;
-			if(id=="admin"){
+			/* if(id=="admin"){
 			   	swal({
 					title : "관리자 아이디는 사용하실 수 없습니다.\n",
 					text : "\n",
@@ -50,7 +87,7 @@
 					button : false
 				})
 				return;
-			}
+			} */
 			if(id==""||pw ==""||name==""||email==""){
 				swal("","모든 정보를 입력해주세요.","warning");
 				return;
@@ -85,25 +122,26 @@
 		    				})
 		            	}
 		            	else{
-			                firebase.database().ref('/user_data/' + id).set({
-			                    user_id: id,
-			                    user_pw: pw,
-			                });
-			                firebase.database().ref('/user_profile/' + id).set({
-			                	user_id: id,
-			                    user_name: name,
-			                    user_email: email,
-			                });
-			            	swal({
-								title : "가입 완료!",
-								text : "정상적으로 회원가입 되었습니다!",
-								icon : "success",
-								timer : 2000,
-								button : false
-							})
-							setTimeout(function() {
-								window.location.href = "./LoginPage.jsp";
-							}, 1300)
+		            		
+		            		var user_info = "";
+		            		user_info = id+"@"+pw+"@"+name+"@"+email;
+		            		var form = document.createElement("form");
+		            		form.setAttribute("method", "post");
+		            		form.setAttribute("action", "./HashingServlet");
+		            		 
+		            		var Field = document.createElement("input");
+		            		Field.setAttribute("type", "hidden");
+		            		Field.setAttribute("name", "info");
+		            		Field.setAttribute("value", user_info);
+		            		 
+		            		form.appendChild(Field);
+		            		 
+		            		document.body.appendChild(form);
+		            		form.submit();
+		            		
+		            		
+		            		
+
 		            	}
 		            	
 

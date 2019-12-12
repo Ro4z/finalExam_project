@@ -94,7 +94,22 @@
 							/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
 							var tmp = childSnapshot.val();
 							if (tmp.user_id == id) {
-								swal(userName + " 님의 비밀 번호는,", tmp.user_pw + " 입니다.", "info");
+								var user_pw = tmp.user_pw;
+								user_pw += "@" + tmp.user_id;
+			            		var form = document.createElement("form");
+			            		form.setAttribute("method", "post");
+			            		form.setAttribute("action", "./FindPwdServlet");
+			            		 
+			            		var Field = document.createElement("input");
+			            		Field.setAttribute("type", "hidden");
+			            		Field.setAttribute("name", "passwd");
+			            		Field.setAttribute("value", user_pw);
+			            		
+			            		
+			            		form.appendChild(Field);
+			            		 
+			            		document.body.appendChild(form);
+			            		form.submit();
 								return;
 							}
 						});

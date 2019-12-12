@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/tools/tomcat/apache-tomcat-7.0.96-windows-x64/apache-tomcat-7.0.96/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ro4z/Desktop/komoran/KOMORAN/build/libs/KOMORAN.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
