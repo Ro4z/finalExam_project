@@ -39,7 +39,7 @@
 		swal('<%=id%>' + " 님의 비밀 번호는,", '<%=pw%>'+ " 입니다.", "info");
 		setTimeout(function(){
 	    	window.history.back();
-	    },1200);
+	    },2500);
 	}
 </script>
 </head>

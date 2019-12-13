@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+	String id = (String) session.getAttribute("id");
+	String pw = (String) session.getAttribute("pw");
+	String temp = (String) session.getAttribute("temp");
+%>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -26,9 +34,66 @@
 	};
 	// Initialize Firebase
 	firebase.initializeApp(firebaseConfig);
+	
+	function init(){
+		var id = "<%=id%>";
+		var pw = "<%=pw%>";
+		var successLogin = false;
+		document.getElementById("id").value = id;
+		document.getElementById("pwd").value = "<%=temp%>";
+		var user_data = firebase.database().ref('user_data');
+		user_data.once('value', function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				var key = Object.keys(childSnapshot.val())[0];
+				console.log(key + "@@");
+				/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
+				var tmp = childSnapshot.val();
+				if (tmp.user_id == id) {
+					if (tmp.user_pw == pw) {
+						console.log("hello");
+						successLogin = true;
+					}
+				}
+			});
+			if (successLogin == true) {
+				var name;
+				var user_data = firebase.database().ref('user_profile/' + id);
+				console.log(user_data);
+				user_data.once('value').then(function(snapshot) {
+					name = (snapshot.val() && snapshot.val().user_name) || 'Anonymous';
+				});
+				swal({
+					title : "로그인 성공\n",
+					text : "\n",
+					icon : "success",
+					timer : 1300,
+					button : false
+				})
+
+				setTimeout(function() {
+					var form = document.getElementById("loginForm");
+					form.setAttribute("action", "./EnterMainPage?id=" + id + "&&pwd=" + pw + "");
+					form.submit();
+				}, 1300)
+			} else {
+				swal({
+					title : "사용자 정보와 일치하지 않습니다\n",
+					text : "\n",
+					icon : "error",
+					timer : 1300,
+					button : false
+				})
+				setTimeout(function(){
+					window.history.back();
+				},1200)
+			}
+		});
+		
+	}
 </script>
+
 </head>
-<body>
+<body onload="init()">
 
 	<form class="login-form" id="loginForm">
 		<h1>환영합니다!</h1>
@@ -87,7 +152,7 @@
 					})
 					setTimeout(function() {
 						var form = document.getElementById("loginForm");
-						form.setAttribute("action", "./EnterMainPage");
+						form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
 						form.submit();
 					}, 1300)
 				} else {
@@ -101,52 +166,8 @@
 				}
 				return;
 			}
-			var form = document.getElementById("loginForm");
-			form.setAttribute("action", "./LoginServlet?id=" + id + "&&pwd=" + pw + "");
-			form.submit();
 			/* console.log(id + "#" + pw); */
-			var user_data = firebase.database().ref('user_data');
-			user_data.once('value', function(snapshot) {
-				snapshot.forEach(function(childSnapshot) {
-					var key = Object.keys(childSnapshot.val())[0];
-					console.log(key + "@@");
-					/* console.log(childSnapshot.val().user_id + "@" + childSnapshot.val().user_pw); */
-					var tmp = childSnapshot.val();
-					if (tmp.user_id == id) {
-						if (tmp.user_pw == pw) {
-							console.log("hello");
-							successLogin = true;
-						}
-					}
-				});
-				if (successLogin == true) {
-					var name;
-					var user_data = firebase.database().ref('user_profile/' + id);
-					console.log(user_data);
-					user_data.once('value').then(function(snapshot) {
-						name = (snapshot.val() && snapshot.val().user_name) || 'Anonymous';
-					});
-					swal({
-						title : "로그인 성공\n",
-						text : "\n",
-						icon : "success",
-						timer : 1300,
-						button : false
-					})
-
-					setTimeout(function() {
-
-					}, 1300)
-				} else {
-					swal({
-						title : "사용자 정보와 일치하지 않습니다\n",
-						text : "\n",
-						icon : "error",
-						timer : 1300,
-						button : false
-					})
-				}
-			});
+			
 
 		}
 

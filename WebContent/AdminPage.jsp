@@ -149,8 +149,25 @@
 		});
 		
 		
+	}
 		
-		
+	
+	
+	function initRank(){
+		swal({
+			  title: "정말 삭제 하시겠습니까?",
+			  text: "모든 정보가 삭제되며, 복구할 수 없습니다.",
+			  icon: "warning",
+			  buttons: true,
+			  dangerMode: true,
+			})
+			.then((willDelete) => {
+			  if (willDelete) {
+					
+					var user_ranks = firebase.database().ref('user_ranking');
+					user_ranks.remove();
+			  }
+		})
 	}
 	function deleteUser(id) {
 		swal({
@@ -257,19 +274,20 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="container" style="font-family: 'Noto Sans KR', sans-serif !important; width: 35%; float: left; margin-left: 50px; padding-top: 10px;">
-				<table class="table table-stripted" style="color: white !important; width: 450px; text-align: center;">
+			<div class="container" style="font-family: 'Noto Sans KR', sans-serif !important; width: 35%; float: left; margin-left: 25px; padding-top: 10px;">
+				<table class="table table-stripted" style="color: white !important; width: 550px; text-align: center;">
 					<thead style="font-weight: bolder;">
 						<tr>
 							<th style="width: 150px !important;">ID</th>
 							<th>PW</th>
-							<th>Delete</th>
+							<th style="width: 150px !important;">Delete</th>
 						</tr>
 					</thead>
 					<tbody id="table_body2">
 
 					</tbody>
 				</table>
+				<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="initRank()" style="float: right;" value="랭킹 초기화">
 			</div>
 		</div>
 		<div class="bg-circle-1 bg-circle"></div>
@@ -292,6 +310,8 @@
 		function gotoWrite() {
 			window.location.href = "./Write.jsp";
 		}
+		
+		
 	</script>
 </body>
 

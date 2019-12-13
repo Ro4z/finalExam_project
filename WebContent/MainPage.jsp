@@ -108,7 +108,7 @@
 		var rank_info = [];
 		function rankingComposition(){
 			rank_info = [];
-			var rankingRef = firebase.database().ref("user_ranking").orderByChild('score').limitToLast(100);;
+			var rankingRef = firebase.database().ref("user_ranking").orderByChild('score').limitToLast(100);
 			rankingRef.once('value', function(snapshot) {
 				snapshot.forEach(function(childSnapshot) {
 					
@@ -217,7 +217,7 @@
 		switch (evt.keyCode) {
 
 			case 37: /* Left arrow was pressed */
-				theta -= 0.1;
+				theta -= 0.15;
 				x = 300 + radius * Math.cos(theta);
 				y = 300 + radius * Math.sin(theta);
 
@@ -225,7 +225,7 @@
 				break;
 			case 39: /* Right arrow was pressed */
 
-				theta += 0.1;
+				theta += 0.15;
 				x = 300 + radius * Math.cos(theta);
 				y = 300 + radius * Math.sin(theta);
 
@@ -485,7 +485,7 @@
 		gameOver = false;
 		initSeg();
 		document.getElementById("drawCanvas").innerHTML = '<input type="button" class="btn btn-primary btn-xl rounded-pill mt-5" onclick="startGame()" value="게임 시작" style="margin-bottom: 20px;"><br>'
-		+'<div class="masthead-content" style="font-family: Noto Sans KR; color: white; width: 500px; height: 3em;text-align: right; padding-right: 300px; margin-left: 25%; vertical-align: middle;margin-right: 200px; position: absolute;" id="score"><h3> &nbspScore: 0</h3></div>' 
+		+'<div class="masthead-content" style="font-family: Noto Sans KR; color: black;  height: 3em;text-align: right; padding-right: 300px; margin-left: 25%; vertical-align: middle;margin-right: 200px; margin-left:150px; padding-left: 300px;" id="score"><h3> &nbspScore:0</h3></div>' 
 		+'<canvas width="600" height="600" id="MyCanvas" style="text-align: center !important;"></canvas>';
 		canvas = document.getElementById("MyCanvas");
 		context = canvas.getContext("2d");
